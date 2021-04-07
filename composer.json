@@ -2,7 +2,7 @@
     "name": "iggyvolz/lmdb",
     "description": "LMDB bindings for PHP (using FFI)",
     "type": "library",
-    "license": "MIRT",
+    "license": "MIT",
     "authors": [
         {
             "name": "Katie Volz",
