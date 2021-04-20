@@ -185,7 +185,7 @@ class LMDB
         typedef int (MDB_msg_func)(const char *msg, void *ctx);
         int mdb_reader_list(MDB_env *env, MDB_msg_func *func, void *ctx);
         int mdb_reader_check(MDB_env *env, int *dead);
-        EOT, "./lmdb/libraries/liblmdb/liblmdb.so");
+        EOT, "liblmdb.so");
     }
     public static function __callStatic(string $name, array $arguments): mixed
     {
