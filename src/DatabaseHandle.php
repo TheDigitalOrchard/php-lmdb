@@ -64,6 +64,7 @@ class DatabaseHandle
     }
     public function __destruct()
     {
-        LMDB::mdb_dbi_close(LMDB::mdb_txn_env($this->transaction->cdata), $this->handle);
+        // Do NOT clean up database handle - will be handled when closing transaction
+        // LMDB::mdb_dbi_close(LMDB::mdb_txn_env($this->transaction->cdata), $this->handle);
     }
 }
