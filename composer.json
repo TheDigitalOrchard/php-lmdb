@@ -16,5 +16,8 @@
         "psr-4": {
             "iggyvolz\\lmdb\\": "src/"
         }
+    },
+    "require-dev": {
+        "nette/tester": "^2.4"
     }
 }

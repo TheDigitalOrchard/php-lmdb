@@ -5,7 +5,7 @@ use FFI;
 class Environment
 {
     public FFI\CData $cdata;
-    public function __construct(private string $path, private int $flags = 0, private int $mode = 0755, private int $numDatabases = 0)
+    public function __construct(string $path, int $flags = 0, int $mode = 0755, int $numDatabases = 0)
     {
         $this->cdata = LMDB::new("MDB_env*");
         LMDB::assert(LMDB::mdb_env_create(FFI::addr($this->cdata)));
