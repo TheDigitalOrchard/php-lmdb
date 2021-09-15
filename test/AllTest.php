@@ -16,12 +16,21 @@ mkdir($database);
 $databaseEnv = new \iggyvolz\lmdb\Environment($database);
 
 $transaction = $databaseEnv->newTransaction();
+$conts = [
+    "foo" => "bar",
+    "bin" => "bak",
+    "yin" => "yang"
+];
 $handle = $transaction->getHandle();
-$handle->put("foo", "bar");
+foreach($conts as $key => $value) {
+    $handle->put($key, $value);
+}
 $transaction->commit();
 
 $transaction = $databaseEnv->newTransaction(true);
 $handle = $transaction->getHandle();
-Assert::same("bar", $handle->get("foo"));
+// Result may be returned in any order - so we should not test the order
+Assert::equal($conts, iterator_to_array($handle->all()));
+
 \Tester\Helpers::purge($database);
 rmdir($database);
