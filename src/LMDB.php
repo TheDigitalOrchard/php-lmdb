@@ -1,7 +1,10 @@
 <?php
 declare(strict_types=1);
+
 namespace iggyvolz\lmdb;
+
 use FFI;
+
 class LMDB
 {
     public const FIXEDMAP = 0x01;
@@ -52,7 +55,7 @@ class LMDB
     public const BAD_TXN = -30782;
     public const BAD_VALSIZE = -30781;
     public const BAD_DBI = -30780;
-    
+
     public const FIRST = 0;
     public const FIRST_DUP = 1;
     public const GET_BOTH = 2;
@@ -73,6 +76,7 @@ class LMDB
     public const SET_RANGE = 17;
     public const PREV_MULTIPLE = 18;
     private FFI $ffi;
+
     private function __construct()
     {
         $this->ffi = FFI::cdef(<<<'EOT'
@@ -187,26 +191,29 @@ class LMDB
         int mdb_reader_check(MDB_env *env, int *dead);
         EOT, "liblmdb.so");
     }
+
     public static function __callStatic(string $name, array $arguments): mixed
     {
         return self::get()->ffi->$name(...$arguments);
     }
+
     private static ?LMDB $instance = null;
+
     private static function get(): self
     {
         return self::$instance ??= new self();
     }
+
     public static function getVersion(): string
     {
-        $major = self::new("int");
-        $minor = self::new("int");
-        $patch = self::new("int");
-        self::mdb_version(FFI::addr($major),FFI::addr($minor),FFI::addr($patch));
-        return "$major.$minor.$patch";
+        [$major, $minor, $patch] = [self::new('int'), self::new('int'), self::new('int')];
+        self::mdb_version(FFI::addr($major), FFI::addr($minor), FFI::addr($patch));
+        return "{$major}.{$minor}.{$patch}";
     }
+
     public static function assert(int $result): void
     {
-        if($result !== 0) {
+        if ($result !== 0) {
             throw new LMDBException($result);
         }
     }
